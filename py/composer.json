@@ -1,0 +1,21 @@
+{
+    "name": "rabotaru/oauth-client",
+    "description": "rabota.ru API Oauth client",
+    "type": "library",
+    "license": "0BSD",
+    "authors": [
+      {
+        "name": "RabotaRu Team"
+      }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php":">=7.1.0",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "RabotaApi\\": "src/"
+        }
+    }
+}
