@@ -1,28 +1,25 @@
-<?php
-/**
- * API клиент для сайта Rabota.RU
- *
- * @license https://spdx.org/licenses/0BSD.html BSD Zero Clause License
- */
+#API клиент для сайта Rabota.RU
+#license https://spdx.org/licenses/0BSD.html BSD Zero Clause License
 
-include_once 'src/Client.php';
-include_once 'src/Response.php';
-include_once 'src/Exception.php';
+import src.client
+import src.response
+import src.rabota_exception
 
-use RabotaApi\Client;
-use RabotaApi\Exception;
+#use RabotaApi\Client;
+#use RabotaApi\Exception;
 
-session_start();
+#session_start();
+from config import Config
 
-$config = include "config.php";
+config = new Config()
 
-// Создаем API клиента
-$client = new Client(
-    $config['app_id'],$config['secret'], $_SESSION['token'], $_SESSION['expires']
-);
+# Создаем API клиента
+client = new Client(
+    config['app_id'], config['secret'], $_SESSION['token'], $_SESSION['expires']
+)
 
 
-// Если редирект с авторизации приложения с токеном
+# Если редирект с авторизации приложения с токеном
 
 if (isset($_GET['code'])) {
     try {
@@ -41,13 +38,13 @@ if (isset($_GET['code'])) {
     exit;
 }
 
-// Неавторизирован
+# Неавторизирован
 if (!$client->getToken() && !isset($_GET['auth'])) {
     echo '<a href="?auth">Вход</a>';
     exit;
 }
 
-// Авторизация приложения
+# Авторизация приложения
 if (!$client->getToken() && isset($_GET['auth'])) {
     header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
     header("Cache-Control: post-check=0, pre-check=0", false);
@@ -56,7 +53,7 @@ if (!$client->getToken() && isset($_GET['auth'])) {
     exit;
 }
 
-// Авторизированное состояние
+# Авторизированное состояние
 try {
     $response = $client->fetch(
         $config['api']['route'], $config['api']['params'], "POST"
