@@ -1,66 +1,36 @@
-<?php
-/**
- * API клиент для сайта Rabota.RU
- *
- * @license https://spdx.org/licenses/0BSD.html BSD Zero Clause License
- */
+#API клиент для сайта Rabota.RU
+#license https://spdx.org/licenses/0BSD.html BSD Zero Clause License
 
-namespace RabotaApi;
+#Ответ сервера
+class Response:
 
-/**
- * Ответ сервера
- */
-class Response
-{
+    #URL запроса
+    #var string
+    __url = ''
 
-    /**
-     * URL запроса
-     *
-     * @var string
-     */
-    private $url = '';
+    #Параметры запорса
+    #var array
+    __parameters = []
 
-    /**
-     * Параметры запорса
-     *
-     * @var array
-     */
-    private $parameters = [];
+    #HTTP код ответа
+    #var integer
+    __http_code = 0
 
-    /**
-     * HTTP код ответа
-     *
-     * @var integer
-     */
-    private $http_code = 0;
+    #Content-Type ответа
+    #var string
+    __content_type = ''
 
-    /**
-     * Content-Type ответа
-     *
-     * @var string
-     */
-    private $content_type = '';
+    #HTTP заголовки запроса
+    #var array
+    __request = []
 
-    /**
-     * HTTP заголовки запроса
-     *
-     * @var array
-     */
-    private $request = [];
+    #HTTP заголовки ответа
+    #var array
+    __response = []
 
-    /**
-     * HTTP заголовки ответа
-     *
-     * @var array
-     */
-    private $response = [];
-
-    /**
-     * Тело ответа
-     *
-     * @var array
-     */
-    private $body = '';
+    #Тело ответа
+    #var array
+    __body = ''
 
     /**
      * Декодированный JSON тела ответа
@@ -69,18 +39,8 @@ class Response
      */
     private $json_decode = [];
 
-    /**
-     * Конструктор
-     *
-     * @param string   $response   Результат запорса
-     * @param resource $ch         CURL хендлер
-     * @param string   $url        URL запроса
-     * @param array    $parameters Параметры запорса
-     * @param boolean  $debug      Режим отладки
-     */
-    public function __construct($response, $ch, $url, array $parameters = [], $debug = false)
-    {
-        // разбор параметров запроса
+    def __init__(self, response, ch, url, parameters = [], debug = False):
+        #разбор параметров запроса
         if ($debug) {
             $this->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
             // разбор запроса к серверу
